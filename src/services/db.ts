@@ -1,5 +1,3 @@
-import Service from "eris/services";
+import Service from 'eris/services';
 
-export default class DatabaseService extends Service {
-
-}
+export default class DatabaseService extends Service {}

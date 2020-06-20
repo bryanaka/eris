@@ -15,5 +15,4 @@ export interface EventRouter {
   unmount(app: Eris): void;
 }
 
-
 export { CommandRouter };

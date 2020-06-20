@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import Discord, { ClientOptions, ClientUser } from 'discord';
 import { EventRouter, EEventRouterType } from 'eris/routers';
 
@@ -5,7 +6,7 @@ type RouterSet = Set<EventRouter>;
 
 type RouterRegistry = Map<EEventRouterType, RouterSet>;
 
-export default class RooBot {
+export default class Eris {
   client!: Discord.Client;
 
   #routerRegistry: RouterRegistry = new Map();
