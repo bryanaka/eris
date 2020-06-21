@@ -1,17 +1,30 @@
-import Service from 'eris/services';
-import { createConnection } from 'typeorm';
+import { createConnection, Connection, ConnectionOptions } from 'typeorm';
+import { DEFAULT_DB_OPTIONS } from 'eris/db/config';
+export default class DatabaseService {
+  connection!: Connection;
 
-export default class DatabaseService extends Service {
-  async connect(): Promise<any> {
-    try {
-      const connection = await createConnection();
-      return connection;
-    } catch (err) {
-      throw new Error('unable to connect to the database');
-    }
+  constructor(options: Partial<ConnectionOptions> = {}) {
+    this.connect(options);
+  }
+
+  get isConnected(): boolean {
+    return !!this.connection;
   }
 
   getRepo(): void {
     return;
+  }
+
+  async connect(options: Partial<ConnectionOptions>): Promise<void> {
+    try {
+      this.connection = await this._createConnection(options);
+    } catch (err) {
+      throw new Error(`Unable to connect to the database: ${err.message}`);
+    }
+  }
+
+  async _createConnection(options: Partial<ConnectionOptions> = {}): Promise<Connection> {
+    const connectionOptions = Object.assign({}, DEFAULT_DB_OPTIONS, options) as ConnectionOptions;
+    return await createConnection(connectionOptions);
   }
 }
