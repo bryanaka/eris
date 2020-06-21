@@ -15,9 +15,11 @@
     "baseUrl": "./",
     "paths": {
       "eris/config/*": ["config/*"],
+      "eris/db/*": ["db/*"],
       "eris/*": ["src/*"],
       "eris": ["src/eris"],
       "discord": ["node_modules/discord.js/src/index.js"],
+      "typeorm": ["node_modules/typeorm/index.d.ts"],
     },
     "esModuleInterop": true,
     "experimentalDecorators": true,
