@@ -1,3 +1,3 @@
-import Service from 'eris/services/service';
+import DatabaseService from 'eris/services/db';
 
-export default Service;
+export { DatabaseService };
