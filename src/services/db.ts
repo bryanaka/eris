@@ -1,5 +1,6 @@
 import { createConnection, Connection, ConnectionOptions } from 'typeorm';
-import { DEFAULT_DB_OPTIONS } from 'eris/db/config';
+import { DEFAULT_DB_OPTIONS } from 'eris/config/db';
+
 export default class DatabaseService {
   connection!: Connection;
 
