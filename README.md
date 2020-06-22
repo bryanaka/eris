@@ -119,9 +119,32 @@ export { commandRouter };
 
 ### Services
 
-TBD
+Services are singleton class instances that are meant to interact with things outside discord
+ecosystem. This can range from the provided Database service to a service that consumes an entirely
+external API.
 
-#### Database Service (TBD)
+Here is a simple example of a service that wraps usage of the a currency converter API.
+
+```ts
+import fetch from 'fetch';
+
+export class CurrencyConverterAPIService {
+  accessKey: string = process.env.API_KEY;
+
+  async getConversions(amount:number, from: string, to: string) {
+    const qs = this.serializeQueryString({ from, to, amount });
+    const result = await fetch(`https://data.fixer.io/api/convert?${qs}`);
+    return await result.json();
+  }
+
+  serializeQueryString(params = {}) {
+    params.access_key = this.accessKey;
+    return qs.stringify(params);
+  }
+}
+```
+
+#### Database Service
 
 A provided service that assists in connecting to a database.
 
@@ -131,8 +154,9 @@ NOTE: decorators are not yet implemented
 
 ```ts
 // app/commands/cool-db.ts
-import ErisCommand, { arg } from 'eris/command';
-import { service } from 'eris/service'
+import ErisCommand from 'eris/command';
+import User from 'eris/entities';
+import { service, commandArg as arg } from 'eris/decorators';
 
 export default class CoolDBCommand extends ErisCommand {
   @service db: DatabaseService;
@@ -142,7 +166,8 @@ export default class CoolDBCommand extends ErisCommand {
 
   async execute(): Promise<void> {
     const userRepo = this.db.getRepo(User);
-    return await userRepo.findOne({ id: this.userId });
+    const user = await userRepo.findOne({ id: this.userId });
+    this.message.reply(`YOU SO COOL USER ID ${user.name}`)
   }
 }
 ```
